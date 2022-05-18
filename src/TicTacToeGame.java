@@ -6,15 +6,26 @@ import java.awt.event.ActionListener;
 
 public class TicTacToeGame extends JPanel{
 
+    //keeps track of whose turn it is. THis will be swapped
+    //every time someone places a mark. If isXTurn == true,
+    //the mark will be placed as an X. If not, it's an O
     private static boolean isXTurn = true;
+
+    //the images that will be placed into the TTT squares
     private static ImageIcon xMark;
     private static ImageIcon oMark;
 
-    public TicTacToeGame(){
-        manipulateIcons();
-    }
+    //holds all the buttons. I've done this primarily to
+    //make it easier to check if the game has been won,
+    //since I can just reference different indexes of the
+    //array instead of trying to pull the button out of the
+    //JFrame (if you can even do that)
+    private static TicButton[] buttonArray = new TicButton[9];
+
 
     public static void main(String[] args){
+        //assigns values to the xMark and oMark ImageIcons.
+        manipulateIcons();
 
         //Make new JFrame for main window, set title
         JFrame gameWindow = new JFrame();
@@ -56,30 +67,23 @@ public class TicTacToeGame extends JPanel{
 
     }
 
+
+    //TODO: add buttons into global array buttonArray[],
+    // add game logic using that array
     private static void addButtons(JFrame gWindow){
 
+
+        //private static TicButton[] buttonArray = new TicButton[9];
+
         TicButton button1 = new TicButton();
-
-//        ImageIcon icon = new ImageIcon("resources/xMark.png");
-//        Image img = icon.getImage();
-//        Image newImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//        ImageIcon xMark = new ImageIcon(newImg);
-//
-//        button1.setIcon(xMark);
-
-//        button1.setHorizontalTextPosition(JButton.CENTER);
-//        button1.setVerticalTextPosition(JButton.CENTER);
-
-//        button1.setIcon(xMark);
-
-        TicButton button2 = new TicButton("2");
-        TicButton button3 = new TicButton("3");
-        TicButton button4 = new TicButton("4");
-        TicButton button5 = new TicButton("5");
-        TicButton button6 = new TicButton("6");
-        TicButton button7 = new TicButton("7");
-        TicButton button8 = new TicButton("8");
-        TicButton button9 = new TicButton("9");
+        TicButton button2 = new TicButton();
+        TicButton button3 = new TicButton();
+        TicButton button4 = new TicButton();
+        TicButton button5 = new TicButton();
+        TicButton button6 = new TicButton();
+        TicButton button7 = new TicButton();
+        TicButton button8 = new TicButton();
+        TicButton button9 = new TicButton();
 
         button1.addActionListener(new ActionListener() {
             @Override
@@ -90,53 +94,56 @@ public class TicTacToeGame extends JPanel{
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button2);
             }
         });
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button3);
             }
         });
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button4);
             }
         });
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
-
+                placeMark(button5);
             }
         });
         button6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button6);
             }
         });
         button7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button7);
             }
         });
         button8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button8);
             }
         });
         button9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                swapBGTest(gWindow);
+                placeMark(button9);
             }
         });
 
+//        //add buttons to array
+//        buttonArray[0] = button1;
+
+        //add buttons to JFrame
         gWindow.add(button1);
         gWindow.add(button2);
         gWindow.add(button3);
@@ -148,37 +155,41 @@ public class TicTacToeGame extends JPanel{
         gWindow.add(button9);
     }
 
-    private static void swapBGTest(JFrame gWindow){
-        if (isXTurn){
-            gWindow.getContentPane().setBackground(Color.red);
+//    TESTING CODE, NO LONGER NEEDED
+//    private static void swapBGTest   (JFrame gWindow){
+//        if (isXTurn){
+//            gWindow.getContentPane().setBackground(Color.red);
+//        } else {
+//            gWindow.getContentPane().setBackground(Color.blue);
+//        }
+//        isXTurn = !isXTurn;
+//    }
+
+    //places the mark depending on if it is currently X's turn
+    //or O's turn, then it flips the global bool isXTurn to
+    //keep track of whose turn it is
+    private static void placeMark(TicButton button){
+        if (isXTurn) {
+            button.setIcon(xMark);
         } else {
-            gWindow.getContentPane().setBackground(Color.blue);
+            button.setIcon(oMark);
         }
         isXTurn = !isXTurn;
     }
 
-    private static void placeMark(TicButton button){
-        //where button is the button that called this function
-        button.setIcon(xMark);
-    }
-
-//    TODO: Doesn't work correctly. Doesn't seem like the constructor
-//     correctly builds the icons? Not totally sure. Learn to use the
-//     debugger please, thanks.
-
     //gets and resizes the icons, prepares them
     //for use. These will be stored in global variables
     //to limit the need to manipulate the icons every
-    //time one is placed on the board of play.
+    //time one is placed on the board of play
     private static void manipulateIcons(){
         ImageIcon icon = new ImageIcon("resources/xMark.png");
         Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
         xMark = new ImageIcon(newImg);
 
-//        icon = new ImageIcon("resources/oMark.png");
-//        img = icon.getImage();
-//        newImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-//        oMark = new ImageIcon(newImg);
+        icon = new ImageIcon("resources/oMark.png");
+        img = icon.getImage();
+        newImg = img.getScaledInstance(130, 130, Image.SCALE_SMOOTH);
+        oMark = new ImageIcon(newImg);
     }
 }
