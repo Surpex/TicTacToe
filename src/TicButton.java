@@ -9,9 +9,15 @@ public class TicButton extends JButton {
     private Color hoverBGColor = new Color(224, 196, 157);
     private Color normalBGColor = new Color(248, 220, 170);
 
+//    private int arrPos;
+
     public TicButton(){
         this(null);
     }
+
+//    public TicButton(int i){
+//        arrPos = i;
+//    }
 
     public TicButton(String text){
         super(text);
@@ -53,5 +59,9 @@ public class TicButton extends JButton {
     public void setPressedBGColor(Color pressedBGColor){
         this.pressedBGColor = pressedBGColor;
     }
+
+//    public int getArrPos(){
+//        return arrPos;
+//    }
 
 }

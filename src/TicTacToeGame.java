@@ -4,6 +4,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/*
+TODO: clear the board when the game has been won or tied.
+ Probably do this by clearing the actual icons from the
+ buttons, re-initializing the parallel array, resetting
+ isXTurn. Tried removing everything from the JFrame with
+ frame.removeAll() and rebuilding the frame, but this breaks
+ the ability to add icons to the board. Probably easier
+ and more effective to just clear icons etc.
+*/
+
 public class TicTacToeGame extends JPanel{
 
     //keeps track of whose turn it is. THis will be swapped
@@ -13,7 +23,12 @@ public class TicTacToeGame extends JPanel{
 
     //the images that will be placed into the TTT squares
     private static ImageIcon xMark;
-    private static ImageIcon oMark;
+    private static  ImageIcon oMark;
+
+    private static final char xChar = 'x';
+    private static final char oChar = 'o';
+
+    public static JFrame gameWindow = new JFrame();
 
     //holds all the buttons. I
     private static TicButton[] buttonArray = new TicButton[9];
@@ -27,10 +42,9 @@ public class TicTacToeGame extends JPanel{
 
     public static void main(String[] args){
         driver();
-    }
 
-    //TODO: Make a parallel array that will hold a single character
-    // representation of the play mark (X for the cross, O for the circle)
+        buildBoard();
+    }
 
     //creates buttons, adds them to global array buttonArray[],
     // attaches event listeners to them, adds them to gWindow
@@ -43,7 +57,7 @@ public class TicTacToeGame extends JPanel{
             buttonArray[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    placeMark(buttonArray[finalI]);
+                    placeMark(buttonArray[finalI], finalI);
                 }
             });
             gWindow.add(buttonArray[i]);
@@ -53,22 +67,36 @@ public class TicTacToeGame extends JPanel{
     //places the mark depending on if it is currently X's turn
     //or O's turn, then it flips the global bool isXTurn to
     //keep track of whose turn it is
+    private static void placeMark(TicButton button, int arrPos){
+        if (boardArray[arrPos] == 'u'){
+            if (isXTurn) {
+                makeMove(button, xMark, arrPos);
+            } else {
+                makeMove(button, oMark, arrPos);
+            }
 
-    //TODO: This isn't working correctly. Inputting a
-    // winning combo doesn't output to console, which is
-    // the expected output.
-    private static void placeMark(TicButton button){
-        if (isXTurn) {
-            button.setIcon(xMark);
+            //check if the game has been won
+            if(!checkDraw() && !checkWin()){
+                isXTurn = !isXTurn;
+            } else if(checkWin()){
+                //do win state
+                System.out.println("Game has been won");
+            } else if (!checkWin()){
+              if (checkDraw()){
+                  //do draw state
+                  System.out.println("The game was a draw");
+              }
+            }
+        }
+    }
+
+    private static void makeMove(TicButton button, ImageIcon pMark, int arrPos){
+        button.setIcon(pMark);
+        if (isXTurn){
+            boardArray[arrPos] = xChar;
         } else {
-            button.setIcon(oMark);
+            boardArray[arrPos] = oChar;
         }
-
-        //check if the game has been won
-        if(checkWin()){
-            System.out.println("Game has been won");
-        }
-        isXTurn = !isXTurn;
     }
 
     //gets and resizes the icons, prepares them
@@ -99,9 +127,11 @@ public class TicTacToeGame extends JPanel{
 
         //initializes parallel array
         initArray();
+    }
 
+    private static void buildBoard(){
         //Make new JFrame for main window, set title
-        JFrame gameWindow = new JFrame();
+//        JFrame gameWindow = new JFrame();
         gameWindow.setTitle("Tic Tac Toe!");
 
         //exits using the System exit method. Can also have it
@@ -132,12 +162,27 @@ public class TicTacToeGame extends JPanel{
         gameWindow.setVisible(true);
     }
 
-    private static boolean  checkWin(){
+    private static void clearBoard(){
+        gameWindow.getContentPane().removeAll();
+        gameWindow.repaint();
+    }
+
+    private static boolean checkWin(){
+        System.out.println("From checkWin()");
         boolean hasWon = false;
         if (checkVerticals() || checkHorizontals() || checkDiagonals()){
             hasWon = true;
         }
         return hasWon;
+    }
+
+    private static boolean checkDraw(){
+        for (int i = 0; i < 9; i++){
+            if (boardArray[i] == 'u'){
+                return false;
+            }
+        }
+        return true;
     }
 
     //How the array maps to the board:
@@ -168,7 +213,7 @@ public class TicTacToeGame extends JPanel{
     }
 
     private static boolean checkDiagonals(){
-        if (boardArray[0] != 'u'){
+        if (boardArray[0] != 'u' && boardArray[2] != 'u'){
             if ((boardArray[0] == boardArray[4]) && (boardArray[4] == boardArray[8])){
                 return true;
             }
