@@ -5,9 +5,12 @@ import java.awt.*;
 public class TicButton extends JButton {
     //color for when the button is still being
     //pressed, before it's been released
-    private Color pressedBGColor = new Color(224, 196, 157);
-    private Color hoverBGColor = new Color(224, 196, 157);
+    private Color pressedBGColor = new Color(216, 176, 140);
+    private Color hoverBGColor = new Color(216, 176, 140);
+//    private Color normalBGColor = new Color(248, 220, 170);
     private Color normalBGColor = new Color(248, 220, 170);
+
+//    private int arrPos;
 
     public TicButton(){
         this(null);
@@ -53,5 +56,4 @@ public class TicButton extends JButton {
     public void setPressedBGColor(Color pressedBGColor){
         this.pressedBGColor = pressedBGColor;
     }
-
 }
