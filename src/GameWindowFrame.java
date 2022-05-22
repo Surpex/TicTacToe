@@ -17,6 +17,6 @@ public class GameWindowFrame extends JFrame {
 
         getContentPane().setBackground(new Color(44, 53, 50, 255));
 
-        setIconImage(new ImageIcon("resources/windowIcon.gif").getImage());
+        setIconImage(new ImageIcon(TicTacToeGame.class.getResource("windowIcon.gif")).getImage());
     }
 }
