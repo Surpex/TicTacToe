@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class TicTacToeGame extends JPanel{
 
@@ -169,12 +170,13 @@ public class TicTacToeGame extends JPanel{
     //changes the icon sizing so we don't have to do it
     //every time a piece is placed
     private static void manipulateIcons(){
-        ImageIcon icon = new ImageIcon("resources/xMark.png");
+
+        ImageIcon icon = new ImageIcon(TicTacToeGame.class.getResource("xMark.png"));
         Image img = icon.getImage();
         Image newImg = img.getScaledInstance(140, 140, Image.SCALE_SMOOTH);
         xMark = new ImageIcon(newImg);
 
-        icon = new ImageIcon("resources/oMark.png");
+        icon = new ImageIcon(TicTacToeGame.class.getResource("oMark.png"));
         img = icon.getImage();
         newImg = img.getScaledInstance(130, 130, Image.SCALE_SMOOTH);
         oMark = new ImageIcon(newImg);
